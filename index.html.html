@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mis 15 años · Mariana Forest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+<style>
+:root{--lila:#e8d9f7;--lila2:#c9aee8;--morado:#5c397b;--morado2:#3a2352;--dorado:#d9b65c;--oro:#7a5a2e}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;position:relative;background:linear-gradient(180deg,#efe4ff,#d9c3f5 50%,#efe4ff);color:var(--morado2);font-family:Montserrat,sans-serif;overflow-x:hidden}
+button{font-family:inherit}
+:focus-visible{outline:3px solid var(--dorado);outline-offset:3px}
+svg.sym{position:absolute;width:0;height:0}
+
+/* flores laterales (como en el original) */
+.flowers{position:fixed;top:0;bottom:0;width:130px;z-index:8;pointer-events:none;overflow:hidden}
+.flowers.left{left:0}.flowers.right{right:0;transform:scaleX(-1)}
+.garland{position:absolute;left:0;right:0;text-align:center;font-size:22px;letter-spacing:8px;line-height:1;filter:drop-shadow(0 0 6px #b995df);opacity:.9}
+.garland.top{top:0;padding-top:6px}.garland.bottom{bottom:0;padding-bottom:6px}
+.flower{position:absolute;font-size:30px;filter:drop-shadow(0 0 10px #b995df);animation:sway 5s ease-in-out infinite}
+.f1{top:6%;left:6px;font-size:38px;animation-delay:0s}.f2{top:15%;left:52px;font-size:26px;animation-delay:-1s}
+.f3{top:24%;left:14px;font-size:42px;animation-delay:-2s}.f4{top:33%;left:60px;font-size:28px;animation-delay:-.5s}
+.f5{top:42%;left:8px;font-size:36px;animation-delay:-1.8s}.f6{top:51%;left:58px;font-size:32px;animation-delay:-2.5s}
+.f7{top:60%;left:12px;font-size:40px;animation-delay:-1.2s}.f8{top:69%;left:56px;font-size:27px;animation-delay:-3s}
+.f9{top:78%;left:10px;font-size:35px;animation-delay:-.8s}.f10{top:87%;left:54px;font-size:30px;animation-delay:-2.2s}
+.f11{top:95%;left:16px;font-size:33px;animation-delay:-1.5s}
+@keyframes sway{50%{transform:translateX(10px) rotate(10deg)}}
+/* rama superior */
+.vine{position:absolute;top:0;left:0;width:100%;z-index:9;pointer-events:none;overflow:visible}
+.sg{transform-box:fill-box;transform-origin:50% 0;animation:swing 3.2s ease-in-out infinite alternate}
+@keyframes swing{from{rotate:-4deg}to{rotate:4deg}}
+
+/* pétalos y hojas */
+.petals{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.petal{position:absolute;top:-30px;width:12px;height:18px;border-radius:80% 20% 80% 20%;background:linear-gradient(135deg,#e3b8f5,#8f65b5);opacity:.85;animation:fall linear infinite}
+.petal.leaf{width:14px;height:22px;border-radius:0 100% 0 100%;background:linear-gradient(135deg,#a77be8,#d9b65c)}
+@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(700deg)}}
+
+/* portada */
+#cover{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.6),transparent 45%),linear-gradient(145deg,#e3d0f7,#b995df 55%,#9c72c8);transition:opacity 1.2s,transform 1.2s,visibility 0s 1.2s}
+#cover.hide{opacity:0;visibility:hidden;transform:scale(1.1)}
+.cover-card{width:min(90%,430px);min-height:600px;border:1px solid rgba(244,223,155,.9);border-radius:220px 220px 30px 30px;padding:60px 28px 44px;text-align:center;background:linear-gradient(160deg,rgba(255,255,255,.5),rgba(233,214,250,.6));box-shadow:0 0 50px rgba(214,177,255,.5);position:relative;overflow:hidden}
+.cover-card:before,.cover-card:after{content:"";position:absolute;width:120px;height:120px;border:1px solid var(--dorado);border-radius:50%;opacity:.5}
+.cover-card:before{top:-65px;left:-65px}.cover-card:after{bottom:-65px;right:-65px}
+.crown{font-size:55px;animation:crown 2.5s ease-in-out infinite;filter:drop-shadow(0 0 12px #f2d88a)}
+@keyframes crown{50%{transform:translateY(-8px) rotate(2deg)}}
+.cover-small{letter-spacing:5px;color:var(--oro);font-size:13px;font-weight:600}
+.cover-title{font:600 42px "Cormorant Garamond";margin:18px 0 4px}
+.cover-name{font:58px "Great Vibes";color:var(--morado);margin:0 0 14px}
+.cover-date{font:600 22px "Cormorant Garamond";color:var(--oro)}
+.line{width:90px;height:1px;background:var(--dorado);margin:22px auto}
+.enter{margin-top:30px;padding:15px 28px;border:1px solid var(--dorado);border-radius:50px;background:linear-gradient(135deg,#a879c9,#5c397b);color:#fff;letter-spacing:2px;cursor:pointer;animation:glow 2s infinite;transition:transform .3s}
+.enter:hover{transform:translateY(-3px) scale(1.04)}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(217,182,92,.6)}50%{box-shadow:0 0 0 12px rgba(217,182,92,0),0 0 26px rgba(217,182,92,.7)}}
+
+/* secciones */
+main{max-width:1000px;margin:auto;position:relative;z-index:3;padding:0 clamp(36px,9vw,100px)}
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:90px 0 50px}
+.kicker{letter-spacing:5px;color:var(--oro);font-size:12px;font-weight:600}
+.hero h1{font:clamp(52px,14vw,76px) "Great Vibes";margin:12px 0;color:var(--morado);text-shadow:0 0 25px #c9aee8}
+.hero h2{font:600 28px "Cormorant Garamond";letter-spacing:2px;margin:0}
+.hero p{font:21px "Cormorant Garamond";color:#4a2d68}
+.section{padding:40px 0 80px}
+.lt{display:inline-block;opacity:0}
+.go .hero .lt,.show .lt{animation:rise .6s both calc(var(--i)*.06s + .3s)}
+@keyframes rise{from{opacity:0;transform:translateY(30px) scale(.6)}to{opacity:1;transform:none}}
+
+/* tarjetas */
+.card{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.8),rgba(233,214,250,.65));border:1px solid rgba(217,182,92,.7);border-radius:28px;padding:35px 22px;margin:26px 0;box-shadow:0 20px 50px rgba(92,57,123,.18);overflow:hidden}
+.card:before{content:"";position:absolute;inset:7px;border:1px solid rgba(217,182,92,.3);border-radius:22px;pointer-events:none}
+.title{font:42px "Great Vibes";text-align:center;color:var(--morado);margin:0 0 8px}
+.subtitle{text-align:center;color:var(--oro);letter-spacing:2px;font-size:12px;font-weight:600}
+.icon{font-size:48px;text-align:center;margin-bottom:10px;filter:drop-shadow(0 0 9px rgba(244,223,155,.8))}
+.i-bob{animation:bob 2s ease-in-out infinite alternate}.i-peek{animation:peek 2.4s ease-in-out infinite}.i-hop{animation:hop 1.6s ease-in-out infinite}.i-spin{animation:flip 3s ease-in-out infinite}
+@keyframes bob{to{transform:translateY(-8px)}}
+@keyframes peek{50%{transform:translateY(-10px) rotate(-6deg)}}
+@keyframes hop{0%,60%,100%{transform:none}30%{transform:translateY(-14px) scale(1.1)}}
+@keyframes flip{50%{transform:rotate(180deg)}100%{transform:rotate(180deg)}}
+.parents{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:center;margin-top:22px}
+.parent{font:21px "Cormorant Garamond"}
+.parent b{display:block;color:var(--oro);font:600 11px Montserrat;letter-spacing:2px;margin-bottom:8px}
+.message{font:20px/1.65 "Cormorant Garamond";text-align:center}
+.heart{color:#c76ba8;animation:pulse 1.5s infinite;display:inline-block}
+@keyframes pulse{50%{transform:scale(1.25)}}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info{text-align:center;padding:20px 8px}
+.info .big{font:600 30px "Cormorant Garamond";color:var(--oro);margin-top:6px}
+.info small{letter-spacing:2px;color:var(--oro);font-weight:600}
+.btn{display:inline-block;margin-top:20px;padding:13px 24px;border:1px solid var(--dorado);border-radius:40px;color:#fff;text-decoration:none;background:#6a4788;cursor:pointer;font-size:15px;transition:transform .3s,background .3s}
+.btn:hover{transform:translateY(-3px);background:#7c559d}
+
+/* cuenta regresiva */
+.countdown{display:flex;justify-content:center;gap:10px;margin-top:22px;perspective:600px}
+.time{min-width:68px;padding:13px 6px;border-radius:15px;text-align:center;background:linear-gradient(#fff,#f0e4ff 50%,#e3d0f7 50%,#f6edff);border:1px solid rgba(217,182,92,.7)}
+.time b{display:block;font:600 28px "Cormorant Garamond";color:var(--morado);transform-origin:50% 0}
+.time b.fl{animation:flipin .6s both}
+@keyframes flipin{from{transform:rotateX(-95deg);opacity:0}to{transform:none;opacity:1}}
+.time span{font-size:9px;letter-spacing:1px;color:var(--oro);font-weight:600}
+
+/* pase */
+.chips{display:flex;gap:10px;justify-content:center;margin:14px 0 4px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chip span{display:block;width:52px;height:52px;line-height:50px;border-radius:50%;border:1px solid var(--dorado);font:600 24px "Cormorant Garamond";text-align:center;background:#fff8;transition:.3s}
+.chip input:checked+span{background:var(--dorado);color:var(--morado2);transform:scale(1.15)}
+.chip input:focus-visible+span{outline:3px solid var(--morado);outline-offset:2px}
+input.t{width:100%;padding:15px;border-radius:14px;border:1px solid #b995df;background:rgba(255,255,255,.8);color:var(--morado2);text-align:center;font-size:16px;margin-top:14px}
+#err{color:#a3224f;text-align:center;min-height:1.4em;margin:8px 0 0;font-size:14px}
+
+/* vestimenta y regalo */
+.dress{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
+.dress-item{width:135px;text-align:center;padding:16px 10px}
+.dress-icon{font-size:55px;animation:bob 3s ease-in-out infinite alternate}
+.swatches{display:flex;justify-content:center;gap:10px;margin-top:18px}
+.swatch{width:36px;height:36px;border-radius:50%;border:2px solid #fff4b9;box-shadow:0 0 10px #8e68aa;transform:scale(0);transition:transform .6s cubic-bezier(.3,1.6,.5,1)}
+.show .swatch{transform:none}.show .swatch:nth-child(2){transition-delay:.15s}.show .swatch:nth-child(3){transition-delay:.3s}
+.l1{background:#d9c1f2}.l2{background:#8f65b5}.l3{background:#d9b65c}
+.qr-box{text-align:center;margin-top:20px}
+.qr-box img,.qr-box svg{width:178px;height:178px;background:#fff;padding:8px;border-radius:16px;border:2px solid rgba(217,182,92,.7);box-shadow:0 0 18px rgba(217,182,92,.4)}
+.qr-caption{font-size:12px;color:var(--oro);letter-spacing:1px;margin-top:10px;font-weight:600}
+
+
+footer{text-align:center;padding:60px 25px 100px;position:relative;z-index:3}
+.footer-big{font:clamp(38px,10vw,48px) "Great Vibes";color:var(--morado)}
+.music{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:40;width:52px;height:52px;border-radius:50%;border:1px solid var(--dorado);background:var(--morado);color:#fff;font-size:21px;box-shadow:0 0 18px var(--morado);cursor:pointer}
+.music.on{animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reveal{opacity:0;transform:translateY(35px);transition:opacity 1s,transform 1s}.reveal.show{opacity:1;transform:none}
+@media(max-width:560px){.flowers{width:75px}.flower{font-size:22px}.f1{font-size:28px}.f3{font-size:32px}.f5{font-size:26px}.f7{font-size:30px}.f9{font-size:26px}.f11{font-size:24px}.parents,.info-grid{grid-template-columns:1fr}.cover-name{font-size:50px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.reveal,.lt{opacity:1;transform:none}.swatch{transform:none}.petals{display:none}}
+/* ===== FONDO LLAMATIVO ===== */
+body{background:linear-gradient(160deg,#4d1f94,#8a4fe0 28%,#c9a2ff 52%,#7d46cc 78%,#4a2090);background-size:220% 220%;background-attachment:fixed;animation:bgm 20s ease-in-out infinite alternate}
+@keyframes bgm{from{background-position:0 0}to{background-position:100% 100%}}
+.aur{position:fixed;border-radius:50%;filter:blur(70px);opacity:.5;z-index:0;pointer-events:none;animation:drift2 14s ease-in-out infinite alternate}
+@keyframes drift2{to{transform:translate(70px,-90px) scale(1.25)}}
+.spk{position:fixed;border-radius:50%;background:radial-gradient(circle,#fff,#f4df9b 45%,transparent 72%);z-index:2;pointer-events:none;animation:tw2 3s infinite}
+@keyframes tw2{0%,100%{opacity:.1}50%{opacity:1}}
+#cover{background:radial-gradient(circle at 50% 30%,rgba(255,255,255,.55),transparent 45%),linear-gradient(145deg,#c9a2ff,#8a55d6 55%,#5b2d9e)}
+.hero h1{color:#fff;text-shadow:0 0 32px #e3b8ff,0 0 8px #b78bff,0 3px 0 rgba(58,22,110,.4)}
+.hero .kicker{color:#f4df9b}.hero h2{color:#fff}.hero p{color:#f3e8ff}
+.hero div[aria-hidden],footer div[aria-hidden]{color:#f4df9b!important}
+.footer-big{color:#fff;text-shadow:0 0 28px #e3b8ff}footer p{color:#f5ecff}
+.card{border:1.5px solid #f4df9b;box-shadow:0 22px 60px rgba(40,10,90,.5),0 0 34px rgba(244,223,155,.28)}
+.petal.leaf{background:linear-gradient(135deg,#93cca0,#35704f)}
+.qr-box img{animation:glowq 2.6s ease-in-out infinite}
+@keyframes glowq{0%,100%{box-shadow:0 0 12px rgba(217,182,92,.5)}50%{box-shadow:0 0 30px rgba(244,223,155,.95)}}
+@media(prefers-reduced-motion:reduce){.aur,.spk{display:none}}
+/* ===== FECHA ===== */
+.cover-date{font:italic 700 46px "Playfair Display",serif;letter-spacing:3px;margin-top:4px;background:linear-gradient(100deg,#a8741f,#f0c96a,#a8741f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cover-hora{font:600 15px Montserrat;letter-spacing:7px;color:var(--oro);margin-top:6px}
+.bigdate{font:italic 700 clamp(48px,14vw,72px) "Playfair Display",serif;letter-spacing:4px;margin:6px 0 0;background:linear-gradient(100deg,#f4df9b,#fff7d0,#f4df9b,#d9a94f,#f4df9b);background-size:250%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shd 5s linear infinite;filter:drop-shadow(0 4px 14px rgba(58,22,110,.55))}
+.hora{font:500 16px Montserrat;letter-spacing:9px;color:#fff;margin-bottom:14px}
+@keyframes shd{to{background-position:250% 0}}
+.chips{flex-wrap:wrap}
+</style>
+</head>
+<body>
+<svg class="sym" aria-hidden="true"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d98a"/><stop offset="1" stop-color="#b9863a"/></linearGradient></defs>
+<defs>
+<radialGradient id="pg" cx=".5" cy="1" r="1.05"><stop offset="0" stop-color="#fbf4ff"/><stop offset=".55" stop-color="#d3adff"/><stop offset="1" stop-color="#9a63e0"/></radialGradient>
+<radialGradient id="pg2" cx=".5" cy="1" r="1"><stop offset="0" stop-color="#f3e6ff"/><stop offset="1" stop-color="#a878ec"/></radialGradient>
+<radialGradient id="gc"><stop offset="0" stop-color="#fff3b0"/><stop offset="1" stop-color="#c8932f"/></radialGradient>
+<radialGradient id="w1" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#f8efff"/><stop offset=".55" stop-color="#c79cf5"/><stop offset="1" stop-color="#8a55d0"/></radialGradient>
+<radialGradient id="w2" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#efe0ff"/><stop offset=".55" stop-color="#b78bff"/><stop offset="1" stop-color="#7a45c4"/></radialGradient>
+<radialGradient id="w3" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#dcbcff"/><stop offset="1" stop-color="#a06fe0"/></radialGradient>
+<linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#93cca0"/><stop offset="1" stop-color="#35704f"/></linearGradient>
+</defs>
+<symbol id="fs1" viewBox="-60 -60 120 120"><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w1)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(0)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w1)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(72)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w1)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(144)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w1)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(216)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w1)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(288)"/><circle r="9" fill="url(#gc)"/></symbol><symbol id="fs2" viewBox="-60 -60 120 120"><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w2)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(0)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w2)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(72)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w2)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(144)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w2)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(216)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w2)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(288)"/><circle r="9" fill="url(#gc)"/></symbol><symbol id="fs3" viewBox="-60 -60 120 120"><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w3)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(0)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w3)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(72)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w3)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(144)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w3)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(216)"/><path d="M0 0C-20-6-24-34 0-50C24-34 20-6 0 0Z" fill="url(#w3)" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" transform="rotate(288)"/><circle r="9" fill="url(#gc)"/></symbol>
+<symbol id="flowerR" viewBox="-60 -60 120 120"><path d="M0 0C-17-8-21-38 0-54C21-38 17-8 0 0Z" fill="url(#pg)" stroke="#8d58d8" stroke-opacity=".45" stroke-width=".8" transform="rotate(0)"/><path d="M0-8V-44" stroke="#fff" stroke-opacity=".35" stroke-width="1" transform="rotate(0)"/><path d="M0 0C-17-8-21-38 0-54C21-38 17-8 0 0Z" fill="url(#pg)" stroke="#8d58d8" stroke-opacity=".45" stroke-width=".8" transform="rotate(72)"/><path d="M0-8V-44" stroke="#fff" stroke-opacity=".35" stroke-width="1" transform="rotate(72)"/><path d="M0 0C-17-8-21-38 0-54C21-38 17-8 0 0Z" fill="url(#pg)" stroke="#8d58d8" stroke-opacity=".45" stroke-width=".8" transform="rotate(144)"/><path d="M0-8V-44" stroke="#fff" stroke-opacity=".35" stroke-width="1" transform="rotate(144)"/><path d="M0 0C-17-8-21-38 0-54C21-38 17-8 0 0Z" fill="url(#pg)" stroke="#8d58d8" stroke-opacity=".45" stroke-width=".8" transform="rotate(216)"/><path d="M0-8V-44" stroke="#fff" stroke-opacity=".35" stroke-width="1" transform="rotate(216)"/><path d="M0 0C-17-8-21-38 0-54C21-38 17-8 0 0Z" fill="url(#pg)" stroke="#8d58d8" stroke-opacity=".45" stroke-width=".8" transform="rotate(288)"/><path d="M0-8V-44" stroke="#fff" stroke-opacity=".35" stroke-width="1" transform="rotate(288)"/><path d="M0 0C-11-5-13-24 0-35C13-24 11-5 0 0Z" fill="url(#pg2)" transform="rotate(36)"/><path d="M0 0C-11-5-13-24 0-35C13-24 11-5 0 0Z" fill="url(#pg2)" transform="rotate(108)"/><path d="M0 0C-11-5-13-24 0-35C13-24 11-5 0 0Z" fill="url(#pg2)" transform="rotate(180)"/><path d="M0 0C-11-5-13-24 0-35C13-24 11-5 0 0Z" fill="url(#pg2)" transform="rotate(252)"/><path d="M0 0C-11-5-13-24 0-35C13-24 11-5 0 0Z" fill="url(#pg2)" transform="rotate(324)"/><path d="M0 0L0 -17" stroke="#c8932f" stroke-width="1.3"/><circle cx="0" cy="-17" r="2.2" fill="#f5d98a"/><path d="M0 0L12 -12" stroke="#c8932f" stroke-width="1.3"/><circle cx="12" cy="-12" r="2.2" fill="#f5d98a"/><path d="M0 0L17 0" stroke="#c8932f" stroke-width="1.3"/><circle cx="17" cy="0" r="2.2" fill="#f5d98a"/><path d="M0 0L12 12" stroke="#c8932f" stroke-width="1.3"/><circle cx="12" cy="12" r="2.2" fill="#f5d98a"/><path d="M0 0L0 17" stroke="#c8932f" stroke-width="1.3"/><circle cx="0" cy="17" r="2.2" fill="#f5d98a"/><path d="M0 0L-12 12" stroke="#c8932f" stroke-width="1.3"/><circle cx="-12" cy="12" r="2.2" fill="#f5d98a"/><path d="M0 0L-17 0" stroke="#c8932f" stroke-width="1.3"/><circle cx="-17" cy="0" r="2.2" fill="#f5d98a"/><path d="M0 0L-12 -12" stroke="#c8932f" stroke-width="1.3"/><circle cx="-12" cy="-12" r="2.2" fill="#f5d98a"/><circle r="7" fill="url(#gc)"/></symbol>
+<symbol id="flower" viewBox="-60 -60 120 120"><g fill="#c58cff" stroke="#fff" stroke-opacity=".9"><ellipse cy="-30" rx="14" ry="26"/><ellipse cy="-30" rx="14" ry="26" transform="rotate(72)"/><ellipse cy="-30" rx="14" ry="26" transform="rotate(144)"/><ellipse cy="-30" rx="14" ry="26" transform="rotate(216)"/><ellipse cy="-30" rx="14" ry="26" transform="rotate(288)"/></g><circle r="11" fill="url(#gg)"/></symbol>
+<symbol id="flower2" viewBox="-60 -60 120 120"><g fill="#b78bff"><ellipse cx="-30" cy="26" rx="12" ry="26" transform="rotate(-50 -30 26)"/><ellipse cx="30" cy="26" rx="12" ry="26" transform="rotate(50 30 26)"/></g><g fill="#f0b6ee" stroke="#fff" stroke-opacity=".9"><ellipse cy="-30" rx="9" ry="24"/><ellipse cy="-30" rx="9" ry="24" transform="rotate(45)"/><ellipse cy="-30" rx="9" ry="24" transform="rotate(90)"/><ellipse cy="-30" rx="9" ry="24" transform="rotate(135)"/><ellipse cy="-30" rx="9" ry="24" transform="rotate(180)"/><ellipse cy="-30" rx="9" ry="24" transform="rotate(225)"/><ellipse cy="-30" rx="9" ry="24" transform="rotate(270)"/><ellipse cy="-30" rx="9" ry="24" transform="rotate(315)"/></g><circle r="10" fill="url(#gg)"/></symbol>
+<symbol id="star" viewBox="-60 -60 120 120"><path d="M0-52L15-16 54-14 24 11 34 50 0 28-34 50-24 11-54-14-15-16Z" fill="url(#gg)" stroke="#fff" stroke-width="3"/></symbol>
+<symbol id="clover" viewBox="-60 -60 120 120"><path d="M0 0Q4 35 14 55" stroke="#7a4fc0" stroke-width="5" fill="none"/><g fill="#b78bff" stroke="#fff" stroke-width="3"><circle cx="-22" cy="-22" r="22"/><circle cx="22" cy="-22" r="22"/><circle cx="-22" cy="22" r="22"/><circle cx="22" cy="22" r="22"/></g><circle r="6" fill="url(#gg)"/></symbol>
+<symbol id="rose" viewBox="-60 -60 120 120"><circle r="54" fill="#e8c9ff"/><circle r="42" fill="#d6a8ff"/><circle r="29" fill="#c58cff"/><circle r="16" fill="#a56bf0"/><path d="M-40-12Q0-52 40-12M-28 16Q0 36 28 16" stroke="#fff" stroke-width="3" fill="none" opacity=".85"/></symbol></svg>
+
+<div id="cover">
+  <div class="cover-card">
+    <div class="crown" aria-hidden="true">👑</div>
+    <div class="cover-small">UNA NOCHE PARA RECORDAR</div>
+    <div class="cover-title">Mis 15 años</div>
+    <div class="cover-name">Mariana Forest</div>
+    <div class="cover-date">30 / 10 / 26</div>
+    <div class="cover-hora">19:00 HRS</div>
+    <div class="line"></div>
+    <div style="font:19px 'Cormorant Garamond';color:#4a2d68">Con mucha ilusión te invito a compartir<br>una noche llena de magia y elegancia.</div>
+    <button class="enter" id="enter">✦ ABRIR INVITACIÓN ✦</button>
+  </div>
+</div>
+
+<div class="petals" id="petals" aria-hidden="true"></div>
+<div class="flowers left" aria-hidden="true">
+  <div class="flower f1">🌷</div>
+  <div class="flower f3">🌸</div>
+  <div class="flower f4">🌺</div>
+  <div class="flower f5">💜</div>
+  <div class="flower f7">🌷</div>
+  <div class="flower f8">💜</div>
+  <div class="flower f9">🌸</div>
+  <div class="flower f11">💜</div>
+  <div class="garland bottom">🌸💜🌸</div>
+</div>
+<div class="flowers right" aria-hidden="true">
+  <div class="flower f1">🌷</div>
+  <div class="flower f3">🌸</div>
+  <div class="flower f4">🌺</div>
+  <div class="flower f5">💜</div>
+  <div class="flower f7">🌷</div>
+  <div class="flower f8">💜</div>
+  <div class="flower f9">🌸</div>
+  <div class="flower f11">💜</div>
+  <div class="garland bottom">🌸💜🌸</div>
+</div>
+
+<audio id="music" loop preload="auto"><source src="musica.mp3" type="audio/mpeg"></audio>
+<button class="music on" id="musicBtn" aria-label="Pausar o reproducir música">♫</button>
+
+<main>
+<section class="hero">
+  <div>
+    <div class="crown" style="font-size:56px;margin-bottom:8px" aria-hidden="true">👑</div>
+    <div class="kicker">MIS 15 AÑOS</div>
+    <h1>Mariana Forest</h1>
+    <h2>Una noche mágica comienza...</h2>
+    <div class="bigdate">30 / 10 / 26</div>
+    <div class="hora">19:00 HRS</div>
+    <div style="font-size:28px;color:var(--oro)" aria-hidden="true">✦ ✧ ✦</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card reveal">
+    <div class="icon i-bob" aria-hidden="true">👩‍❤️‍👨</div>
+    <h2 class="title">Mis padres</h2>
+    <p class="subtitle">CON TODO NUESTRO AMOR</p>
+    <div class="parents">
+      <div class="parent"><b>PADRE</b>Yhonny Forest<br>Ramírez</div>
+      <div class="parent"><b>MADRE</b>María del Rosario<br>Méndez Reyes</div>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="icon i-peek" aria-hidden="true">💌</div>
+    <h2 class="title">Un mensaje</h2>
+    <p class="subtitle">PARA MI HIJA</p>
+    <div class="message">
+      Mi hija<br>Hoy que cumples 15 años<br>
+      Le doy gracias a Dios por elegirme para ser tu madre <span class="heart">💗</span><br>
+      Ya no puedo tenerte entre mis brazos, pero te tendré siempre en mi corazón.<br><br>
+      Me has dado incontables razones para estar orgullosa de ti, pero lo que me da mayor orgullo es que seas mi hija.
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <div class="icon i-hop" aria-hidden="true">📍</div>
+    <h2 class="title">El gran día</h2>
+    <p class="subtitle">SALÓN DE EVENTOS</p>
+    <div style="text-align:center;margin:18px 0 10px;font:38px 'Great Vibes';color:var(--morado)">Ana María Sur</div>
+    <div class="info-grid">
+      <div class="info"><small>FECHA</small><div class="big">30 / 10 / 2026</div></div>
+      <div class="info"><small>HORA</small><div class="big">19:00 PM</div></div>
+    </div>
+    <div style="text-align:center"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Sal%C3%B3n%20de%20eventos%20Ana%20Mar%C3%ADa%20Sur%2C%20Santa%20Cruz%20de%20la%20Sierra%2C%20Bolivia">🗺 Ver ubicación</a></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="icon i-spin" aria-hidden="true">⏳</div>
+    <h2 class="title">Cuenta regresiva</h2>
+    <p class="subtitle">FALTA CADA VEZ MENOS</p>
+    <div class="countdown" id="cd" aria-live="off"></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="icon i-bob" aria-hidden="true">🎟️</div>
+    <h2 class="title">Pase para invitado</h2>
+    <p class="subtitle">CONFIRMA TU ASISTENCIA</p>
+    <p style="text-align:center">Pase individual. Escribe tu nombre para confirmar.</p>
+    <input class="t" id="guest" placeholder="Nombre del invitado" aria-label="Nombre del invitado" autocomplete="name">
+    <p id="err" role="alert"></p>
+    <div style="text-align:center"><button class="btn" style="margin-top:6px" id="ok">✓ Confirmar por WhatsApp</button></div>
+  </div>
+
+  <div class="card reveal">
+    <div class="icon i-bob" aria-hidden="true">🕺💃</div>
+    <h2 class="title">Vestimenta</h2>
+    <p class="subtitle">SEMI FORMAL</p>
+    <div class="dress">
+      <div class="dress-item"><div class="dress-icon" aria-hidden="true">🤵🏻</div>Caballeros</div>
+      <div class="dress-item"><div class="dress-icon" style="animation-delay:-1.5s" aria-hidden="true">👗</div>Damas</div>
+    </div>
+    <div style="text-align:center;margin-top:22px;font:600 20px 'Cormorant Garamond';color:var(--oro)">Colores reservados para la quinceañera</div>
+    <div class="swatches"><div class="swatch l1" title="Lila"></div><div class="swatch l2" title="Morado"></div><div class="swatch l3" title="Dorado"></div></div>
+    <p style="text-align:center;font-size:14px;margin-top:16px;line-height:1.7">Lila, morado y dorado, en todas sus tonalidades, son para la quinceañera. 💜</p>
+  </div>
+
+  <div class="card reveal">
+    <div class="icon i-hop" aria-hidden="true">🎁</div>
+    <h2 class="title">Regalo</h2>
+    <p class="subtitle">CON CARIÑO</p>
+    <div class="message">Tu presencia hará mi noche inolvidable.<br>Si además deseas obsequiarme un detalle,<br>será atesorado con amor. 💜</div>
+    <div class="qr-box" id="qrbox"><img id="qrimg" src="qr.png" alt="Código QR para el regalo"><div class="qr-caption">Escanea para obsequiar</div></div>
+  </div>
+
+</section>
+</main>
+
+<footer class="reveal">
+  <div class="footer-big">Gracias por acompañarme</div>
+  <p style="font:21px 'Cormorant Garamond'">Será una noche muy especial y me encantará compartirla contigo.<br><b>¡Te esperamos!</b></p>
+  <div style="color:var(--oro);font-size:22px" aria-hidden="true">✦ 💜 ✦</div>
+</footer>
+
+<script>
+/* ====== EDITA AQUÍ ====== */
+const C={
+  whatsapp:"59174164112",
+  fecha:"2026-10-30T19:00:00-04:00"
+};
+/* ======================== */
+const $=id=>document.getElementById(id),rnd=Math.random;
+
+/* Entrar y música */
+const mu=$('music'),mb=$('musicBtn');
+function setM(on){mb.textContent=on?'♫':'🔇';mb.classList.toggle('on',on)}
+mu.querySelector('source').addEventListener('error',()=>{mb.title='Falta el archivo musica.mp3';setM(false)});
+function play(){mu.play().then(()=>setM(true)).catch(()=>setM(false))}
+mb.onclick=()=>mu.paused?play():(mu.pause(),setM(false));
+$('enter').onclick=()=>{$('cover').classList.add('hide');document.body.classList.add('go');play();scrollTo(0,0)};
+
+/* Letras que aparecen */
+document.querySelectorAll('.title,.hero h1').forEach(h=>{h.setAttribute('aria-label',h.textContent);h.innerHTML=[...h.textContent].map((c,i)=>`<span class="lt" aria-hidden="true" style="--i:${i}">${c===' '?'&nbsp;':c}</span>`).join('')});
+
+/* Cuenta regresiva con giro */
+const target=new Date(C.fecha).getTime();let pv=[];
+function tick(){let s=Math.max(0,Math.floor((target-Date.now())/1000));
+  $('cd').innerHTML=[["DÍAS",86400],["HORAS",3600],["MIN",60],["SEG",1]].map(([u,k],j)=>{const q=Math.floor(s/k);s-=q*k;const v=String(q).padStart(2,'0'),ch=pv[j]!==undefined&&pv[j]!==v;pv[j]=v;return `<div class="time"><b class="${ch?'fl':''}">${v}</b><span>${u}</span></div>`}).join('')}
+tick();setInterval(tick,1000);
+
+/* Confirmación por WhatsApp */
+$('ok').onclick=()=>{
+  const n=$('guest').value.trim();
+  if(!n){$('err').textContent='Por favor escribe el nombre del invitado.';$('guest').focus();return}
+  $('err').textContent='';
+  const msg=`Hola, soy ${n}. Confirmo mi asistencia (pase individual, 1 persona) a los 15 años de Mariana Forest el 30/10/2026 a las 19:00. 💜`;
+  window.open('https://wa.me/'+C.whatsapp+'?text='+encodeURIComponent(msg),'_blank');
+};
+
+/* Pétalos y hojas */
+for(let i=0;i<30;i++){const p=document.createElement('span');p.className='petal'+(i%3==2?' leaf':'');
+  p.style.cssText=`left:${rnd()*100}%;animation-duration:${6+rnd()*7}s;animation-delay:${-rnd()*12}s;--x:${rnd()*180-90}px`;$('petals').appendChild(p)}
+
+/* Rama superior: muchísimas flores y racimos de glicinia */
+function buildVine(){
+  const W=Math.max(320,innerWidth),H=W<600?215:280;
+  let d='M-10 26';for(let x=-10;x<W+40;x+=40)d+=` Q${x+20} ${26+(((x+10)/40|0)%2?16:-12)} ${x+40} 26`;
+  let s=`<path d="${d}" fill="none" stroke="#3a2160" stroke-width="9" stroke-linecap="round"/><path d="${d}" transform="translate(0 -2)" fill="none" stroke="#7e5ab0" stroke-width="2.5" opacity=".7"/>`;
+  const n=Math.min(30,Math.round(W/30));
+  for(let i=0;i<n;i++){const x=(i+.5)*W/n;
+    [-11,12].forEach((o,q)=>{s+=`<path d="M${x+o} 26c10-14 24-12 30 2-12 6-24 6-30-2z" fill="url(#lg)" transform="${q?`translate(${2*(x+o)+30} 0) scale(-1 1)`:''} rotate(${(rnd()*50-25)|0} ${x+o} 26)"/>`})}
+  for(let i=0;i<n;i++){const x=(i+.5)*W/n,L=55+rnd()*(H-130),rows=Math.floor(L/7.5);
+    let g=`<g class="sg" style="animation-delay:${-(rnd()*3).toFixed(1)}s;animation-duration:${(2.6+rnd()*1.6).toFixed(1)}s"><path d="M${x} 28Q${x+3} ${28+L/2} ${x} ${28+L}" stroke="#5a7a50" stroke-width="2" fill="none"/>`;
+    for(let j=0;j<rows;j++){const y=36+j*7.5,sp=(1-j/rows)*12+2,kk=j%3==0?2:1;for(let k=0;k<kk;k++){const dx=(rnd()*2-1)*sp,z=11+(1-j/rows)*5+rnd()*3;
+      g+=`<use href="#fs${1+Math.floor(rnd()*3)}" x="${(x+dx-z/2).toFixed(1)}" y="${(y-z/2).toFixed(1)}" width="${z.toFixed(1)}" height="${z.toFixed(1)}" transform="rotate(${(rnd()*360)|0} ${(x+dx).toFixed(1)} ${y.toFixed(1)})"/>`}}
+    s+=g+'</g>'}
+  const m=Math.round(W/20);
+  for(let i=0;i<m;i++){const x=(i+.5)*W/m,y=26+rnd()*10-5,z=24+rnd()*18;
+    s+=`<use href="#flowerR" x="${(x-z/2).toFixed(1)}" y="${(y-z/2).toFixed(1)}" width="${z.toFixed(1)}" height="${z.toFixed(1)}" transform="rotate(${(rnd()*360)|0} ${x.toFixed(1)} ${y.toFixed(1)})"/>`}
+  let v=$('vine');if(!v){document.body.insertAdjacentHTML('afterbegin','<svg class="vine" id="vine" aria-hidden="true"></svg>');v=$('vine')}
+  v.setAttribute('viewBox',`0 0 ${W} ${H}`);v.setAttribute('height',H);v.innerHTML=s}
+buildVine();let lw=innerWidth;addEventListener('resize',()=>{if(Math.abs(innerWidth-lw)>80){lw=innerWidth;buildVine()}});
+
+/* Luces de fondo y destellos dorados */
+[['#ffd98a','12%','18%',320],['#ff9be0','75%','38%',360],['#ffffff','28%','72%',300],['#b78bff','82%','85%',340]].forEach(([c,l,tp,z],i)=>document.body.insertAdjacentHTML('afterbegin',`<div class="aur" style="background:${c};left:${l};top:${tp};width:${z}px;height:${z}px;animation-delay:${-i*3.5}s"></div>`));
+for(let i=0;i<45;i++){const e=document.createElement('span'),z=4+rnd()*7;e.className='spk';e.style.cssText=`left:${rnd()*100}%;top:${rnd()*100}%;width:${z}px;height:${z}px;animation-delay:${-rnd()*4}s`;document.body.appendChild(e)}
+
+
+/* QR: si falta qr.png se muestra uno de ejemplo */
+$('qrimg').onerror=()=>{const N=25,u=8;let r='';
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const f=(x<7&&y<7)||(x>N-8&&y<7)||(x<7&&y>N-8);let on;
+    if(f){const a=x>N-8?x-(N-7):x,b=y>N-8?y-(N-7):y;on=a==0||a==6||b==0||b==6||(a>1&&a<5&&b>1&&b<5)}else on=((x*7+y*13+x*y)%5<2);
+    if(on)r+=`<rect x="${x*u}" y="${y*u}" width="${u}" height="${u}"/>`}
+  $('qrbox').innerHTML=`<svg viewBox="0 0 ${N*u} ${N*u}" fill="#3a2352" role="img" aria-label="QR de ejemplo">${r}</svg><div class="qr-caption">QR de ejemplo · falta qr.png</div>`};
+
+/* Aparecer al deslizar */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.14});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+</script>
+</body>
+</html>
