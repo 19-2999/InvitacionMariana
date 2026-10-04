@@ -156,6 +156,31 @@ body{background:linear-gradient(160deg,#4d1f94,#8a4fe0 28%,#c9a2ff 52%,#7d46cc 7
 .hora{font:500 16px Montserrat;letter-spacing:9px;color:#fff;margin-bottom:14px}
 @keyframes shd{to{background-position:250% 0}}
 .chips{flex-wrap:wrap}
+.qr-box img{cursor:zoom-in}
+.qrm{display:none;position:fixed;inset:0;z-index:200;background:rgba(30,10,60,.9);align-items:center;justify-content:center;padding:20px;text-align:center;color:#fff;overflow:auto}
+.qrm.on{display:flex}
+.qrm img{width:min(86vw,420px);height:auto;background:#fff;padding:12px;border-radius:18px;border:3px solid var(--dorado);box-shadow:0 0 40px rgba(244,223,155,.5)}
+.qrm p{font-size:13px;opacity:.85;margin:14px 0 0}
+/* ===== AJUSTE A CUALQUIER PANTALLA ===== */
+html{-webkit-text-size-adjust:100%}
+.w{display:inline-block;white-space:nowrap}
+.hero h1{font-size:clamp(38px,11.5vw,76px);line-height:1.1}
+.title{font-size:clamp(30px,8.6vw,42px);line-height:1.15}
+.cover-name{font-size:clamp(36px,11vw,58px)}
+.cover-title{font-size:clamp(30px,9vw,42px)}
+.cover-date{font-size:clamp(30px,9.5vw,46px)}
+.bigdate{font-size:clamp(32px,9.5vw,72px)}
+.hora,.cover-hora{letter-spacing:clamp(4px,2vw,9px)}
+.hero h2{font-size:clamp(20px,5.6vw,28px)}
+.footer-big{font-size:clamp(30px,9vw,48px)}
+#cover{overflow:auto;align-items:flex-start;justify-content:flex-start}
+.cover-card{margin:auto;min-height:min(560px,88vh);padding:clamp(44px,8vh,60px) clamp(16px,5vw,28px) 40px}
+.countdown{gap:clamp(5px,2vw,10px)}
+.time{min-width:0;flex:1 1 0;max-width:74px;padding:12px 2px}
+.time b{font-size:clamp(22px,7vw,28px)}
+main{padding:0 clamp(30px,8vw,100px)}
+.card{padding:32px clamp(14px,4vw,22px)}
+p,.message,.parent{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -277,7 +302,9 @@ body{background:linear-gradient(160deg,#4d1f94,#8a4fe0 28%,#c9a2ff 52%,#7d46cc 7
     <div class="icon i-bob" aria-hidden="true">🎟️</div>
     <h2 class="title">Pase para invitado</h2>
     <p class="subtitle">CONFIRMA TU ASISTENCIA</p>
-    <p style="text-align:center">Pase individual. Escribe tu nombre para confirmar.</p>
+    <p id="pinfo" style="text-align:center;font-weight:600;color:var(--oro);margin:0 0 6px"></p>
+    <p style="text-align:center">¿Cuántas personas asistirán?</p>
+    <div class="chips" id="chips" role="radiogroup" aria-label="Número de personas"></div>
     <input class="t" id="guest" placeholder="Nombre del invitado" aria-label="Nombre del invitado" autocomplete="name">
     <p id="err" role="alert"></p>
     <div style="text-align:center"><button class="btn" style="margin-top:6px" id="ok">✓ Confirmar por WhatsApp</button></div>
@@ -301,7 +328,7 @@ body{background:linear-gradient(160deg,#4d1f94,#8a4fe0 28%,#c9a2ff 52%,#7d46cc 7
     <h2 class="title">Regalo</h2>
     <p class="subtitle">CON CARIÑO</p>
     <div class="message">Tu presencia hará mi noche inolvidable.<br>Si además deseas obsequiarme un detalle,<br>será atesorado con amor. 💜</div>
-    <div class="qr-box" id="qrbox"><img id="qrimg" src="qr.png" alt="Código QR para el regalo"><div class="qr-caption">Escanea para obsequiar</div></div>
+    <div class="qr-box" id="qrbox"><img id="qrimg" src="qr.jpeg" alt="Código QR para el regalo"><div class="qr-caption">Escanea para obsequiar<br>Toca el QR para ampliarlo y guardarlo</div></div>
   </div>
 
 </section>
@@ -312,6 +339,15 @@ body{background:linear-gradient(160deg,#4d1f94,#8a4fe0 28%,#c9a2ff 52%,#7d46cc 7
   <p style="font:21px 'Cormorant Garamond'">Será una noche muy especial y me encantará compartirla contigo.<br><b>¡Te esperamos!</b></p>
   <div style="color:var(--oro);font-size:22px" aria-hidden="true">✦ 💜 ✦</div>
 </footer>
+
+<div id="qrm" class="qrm" role="dialog" aria-modal="true" aria-label="Código QR ampliado">
+  <div>
+    <img id="qrbig" alt="Código QR para el regalo">
+    <div><a class="btn" id="qrdl" download="QR-regalo-Mariana.jpeg">⬇ Guardar imagen</a></div>
+    <p>Si no se descarga, mantén presionada la imagen y elige "Guardar imagen".</p>
+    <button class="btn" id="qrx" style="background:transparent">Cerrar</button>
+  </div>
+</div>
 
 <script>
 /* ====== EDITA AQUÍ ====== */
@@ -331,7 +367,8 @@ mb.onclick=()=>mu.paused?play():(mu.pause(),setM(false));
 $('enter').onclick=()=>{$('cover').classList.add('hide');document.body.classList.add('go');play();scrollTo(0,0)};
 
 /* Letras que aparecen */
-document.querySelectorAll('.title,.hero h1').forEach(h=>{h.setAttribute('aria-label',h.textContent);h.innerHTML=[...h.textContent].map((c,i)=>`<span class="lt" aria-hidden="true" style="--i:${i}">${c===' '?'&nbsp;':c}</span>`).join('')});
+document.querySelectorAll('.title,.hero h1').forEach(h=>{h.setAttribute('aria-label',h.textContent);let i=0;
+  h.innerHTML=h.textContent.split(' ').map(w=>`<span class="w">${[...w].map(c=>`<span class="lt" aria-hidden="true" style="--i:${i++}">${c}</span>`).join('')}</span>`).join(' ')});
 
 /* Cuenta regresiva con giro */
 const target=new Date(C.fecha).getTime();let pv=[];
@@ -339,12 +376,33 @@ function tick(){let s=Math.max(0,Math.floor((target-Date.now())/1000));
   $('cd').innerHTML=[["DÍAS",86400],["HORAS",3600],["MIN",60],["SEG",1]].map(([u,k],j)=>{const q=Math.floor(s/k);s-=q*k;const v=String(q).padStart(2,'0'),ch=pv[j]!==undefined&&pv[j]!==v;pv[j]=v;return `<div class="time"><b class="${ch?'fl':''}">${v}</b><span>${u}</span></div>`}).join('')}
 tick();setInterval(tick,1000);
 
+/* Pases: ?n=Nombre&p=3 define el nombre y los pases de cada invitado */
+const QS=new URLSearchParams(location.search);
+const MAXP=Math.min(10,Math.max(1,parseInt(QS.get('p'))||4));
+const GN=(QS.get('n')||'').trim().slice(0,60);
+const DEF=QS.get('p')?MAXP:1;
+$('chips').innerHTML=Array.from({length:MAXP},(_,i)=>`<label class="chip"><input type="radio" name="k" value="${i+1}"${i+1===DEF?' checked':''}><span>${i+1}</span></label>`).join('');
+if(GN){$('guest').value=GN;$('guest').readOnly=true}
+if(GN||QS.get('p')){$('pinfo').textContent=(GN?'Pase para '+GN+': ':'Tu pase: ')+(MAXP===1?'1 persona':'hasta '+MAXP+' personas')}
+
+/* Modo anfitriona: abre tu enlace con ?admin para crear pases */
+if(QS.has('admin')){
+  const base=location.href.split('?')[0].split('#')[0];
+  const c=document.createElement('div');c.className='card show';
+  c.innerHTML='<h2 class="title" style="font-size:32px">Generador de pases</h2><p class="subtitle">SOLO PARA TI</p><input class="t" id="an" placeholder="Nombre del invitado o familia" aria-label="Nombre"><input class="t" id="ap" type="number" min="1" max="10" value="2" aria-label="Cantidad de pases"><div style="text-align:center"><button class="btn" id="ac">Crear y copiar enlace</button></div><p id="ao" style="word-break:break-all;text-align:center;font-size:13px;margin-top:12px"></p>';
+  document.querySelector('.section').prepend(c);
+  $('ac').onclick=()=>{const n=$('an').value.trim(),pp=Math.min(10,Math.max(1,parseInt($('ap').value)||1));
+    const u=base+'?n='+encodeURIComponent(n)+'&p='+pp;$('ao').textContent=u;
+    if(navigator.clipboard)navigator.clipboard.writeText(u).then(()=>{$('ao').textContent='Copiado ✓ '+u}).catch(()=>{})};
+}
+
 /* Confirmación por WhatsApp */
 $('ok').onclick=()=>{
   const n=$('guest').value.trim();
   if(!n){$('err').textContent='Por favor escribe el nombre del invitado.';$('guest').focus();return}
   $('err').textContent='';
-  const msg=`Hola, soy ${n}. Confirmo mi asistencia (pase individual, 1 persona) a los 15 años de Mariana Forest el 30/10/2026 a las 19:00. 💜`;
+  const k=document.querySelector('input[name=k]:checked').value;
+  const msg=`Hola, soy ${n}. Confirmo mi asistencia (${k} ${k==='1'?'persona':'personas'}${QS.get('p')?' de '+MAXP:''}) a los 15 años de Mariana Forest el 30/10/2026 a las 19:00. 💜`;
   window.open('https://wa.me/'+C.whatsapp+'?text='+encodeURIComponent(msg),'_blank');
 };
 
@@ -377,12 +435,22 @@ buildVine();let lw=innerWidth;addEventListener('resize',()=>{if(Math.abs(innerWi
 for(let i=0;i<45;i++){const e=document.createElement('span'),z=4+rnd()*7;e.className='spk';e.style.cssText=`left:${rnd()*100}%;top:${rnd()*100}%;width:${z}px;height:${z}px;animation-delay:${-rnd()*4}s`;document.body.appendChild(e)}
 
 
-/* QR: si falta qr.png se muestra uno de ejemplo */
-$('qrimg').onerror=()=>{const N=25,u=8;let r='';
+/* QR: si falta qr.jpeg se muestra uno de ejemplo */
+const QN=['qr.jpeg','qr.jpg','qr.png','qr.webp','qr.JPG','qr.JPEG','qr.PNG'];let qi=0;
+$('qrimg').onerror=()=>{if(++qi<QN.length){$('qrimg').src=QN[qi];return}const N=25,u=8;let r='';
   for(let y=0;y<N;y++)for(let x=0;x<N;x++){const f=(x<7&&y<7)||(x>N-8&&y<7)||(x<7&&y>N-8);let on;
     if(f){const a=x>N-8?x-(N-7):x,b=y>N-8?y-(N-7):y;on=a==0||a==6||b==0||b==6||(a>1&&a<5&&b>1&&b<5)}else on=((x*7+y*13+x*y)%5<2);
     if(on)r+=`<rect x="${x*u}" y="${y*u}" width="${u}" height="${u}"/>`}
-  $('qrbox').innerHTML=`<svg viewBox="0 0 ${N*u} ${N*u}" fill="#3a2352" role="img" aria-label="QR de ejemplo">${r}</svg><div class="qr-caption">QR de ejemplo · falta qr.png</div>`};
+  $('qrbox').innerHTML=`<svg viewBox="0 0 ${N*u} ${N*u}" fill="#3a2352" role="img" aria-label="QR de ejemplo">${r}</svg><div class="qr-caption">QR de ejemplo · falta qr.jpeg</div>`};
+
+/* QR ampliado: guardar para enviar el detalle */
+$('qrbox').addEventListener('click',e=>{const im=e.target.closest('#qrimg');if(!im||!im.naturalWidth)return;
+  const ext=(im.src.split('?')[0].split('.').pop()||'jpeg').toLowerCase();
+  $('qrbig').src=im.src;$('qrdl').href=im.src;$('qrdl').download='QR-regalo-Mariana.'+ext;$('qrm').classList.add('on')});
+const qclose=()=>$('qrm').classList.remove('on');
+$('qrx').onclick=qclose;
+$('qrm').addEventListener('click',e=>{if(e.target===$('qrm'))qclose()});
+addEventListener('keydown',e=>{if(e.key==='Escape')qclose()});
 
 /* Aparecer al deslizar */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.14});
